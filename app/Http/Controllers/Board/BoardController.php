@@ -58,9 +58,11 @@ class BoardController extends Controller
      * @param  \App\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function show(Board $board)
+    public function show($id)
     {
-        //
+        $board = Board::find($id);
+        $author = Board::find($id)->author();
+        return view('board.show', compact('board','author'));
     }
 
     /**

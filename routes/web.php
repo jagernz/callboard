@@ -24,5 +24,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'Board\BoardController@index');
 Route::get('/create', 'Board\BoardController@create');
 Route::post('/store', 'Board\BoardController@store');
+Route::get('/{id}', 'Board\BoardController@show');
 
 
