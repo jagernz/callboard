@@ -7,6 +7,7 @@ use App\User;
 use App\Board;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class BoardController extends Controller
 {
@@ -17,7 +18,7 @@ class BoardController extends Controller
      */
     public function index()
     {
-        $boards = Board::all();
+        $boards = DB::table('boards')->paginate(5);
         return view('board.index', compact('boards'));
     }
 
@@ -43,13 +44,18 @@ class BoardController extends Controller
             'title' => 'required|unique:boards',
             'description' => 'required'
         ]);
+
         $board = new Board();
         $board->title = $request->title;
         $board->description = $request->description;
         $board->author_name = Auth::user()->id;
         $board->save();
-        session()->flash('message','Create Successfully!');
-        return redirect('/');
+
+        $id = Board::orderby('id', 'desc')->first();
+
+//        session()->flash('message','Create Successfully!');
+
+        return redirect('/'.$id->id);
     }
 
     /**
@@ -61,8 +67,15 @@ class BoardController extends Controller
     public function show($id)
     {
         $board = Board::find($id);
-        $author = Board::find($id)->author();
-        return view('board.show', compact('board','author'));
+        $authorName = $board->author->name;
+
+        $access = false;
+
+        if ( $board->author->id == @Auth::user()->id ) {
+            $access = true;
+        }
+
+        return view('board.show', compact('board','authorName', 'access'));
     }
 
     /**
@@ -94,8 +107,11 @@ class BoardController extends Controller
      * @param  \App\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Board $board)
+    public function delete($id)
     {
-        //
+        $board = Board::find($id);
+        $board->delete();
+
+        return redirect('/');
     }
 }

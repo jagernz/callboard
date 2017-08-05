@@ -30,7 +30,15 @@
             </div>
         </div>
         @endforeach
+
     </div>
+
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            {{ $boards->links() }}
+        </div>
+    </div>
+
 </div>
 
 @endsection
