@@ -14,14 +14,13 @@
 
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
-
 Route::get('/', 'Board\BoardController@index');
 Route::get('/create', 'Board\BoardController@create');
 Route::post('/store', 'Board\BoardController@store');
 Route::get('/{id}', 'Board\BoardController@show');
-
 Route::post('/delete/{id}', 'Board\BoardController@delete');
+Route::get('/edit/{id}', 'Board\BoardController@edit');
+Route::post('/update/{id}', 'Board\BoardController@update');
 
 

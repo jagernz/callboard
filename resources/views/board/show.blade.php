@@ -4,7 +4,6 @@
 
     <div class="container">
         <div class="row">
-
             <div class="col-md-10">
                 <div class="jumbotron">
                     <h1>{{$board->title}}</h1>
@@ -23,15 +22,12 @@
             <div class="col-md-2">
                 <form class="form-horizontal" action="{{ url('/delete/'.$board->id) }}" method="POST">
                     {{csrf_field()}}
-                        <div class="form-group">
-                            <div class="col-lg-10 col-lg-offset-2">
-
-                                    @if( $access )
-                                <button type="submit" class="btn btn-danger">Delete Ad</button>
-                                    @endif
-
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        @if( $access )
+                            <a href="{{'/edit/'.$board->id}}" class="btn btn-warning">Edit</a>
+                            <button type="submit" class="btn btn-danger">Delete Ad</button>
+                        @endif
+                    </div>
                 </form>
             </div>
 

@@ -23,11 +23,27 @@
     </div>
 
     <div class="row">
+
+        @include('partials.flash')
+
         @foreach($boards as $board)
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-5 col-md-offset-2">
             <div class="list-group">
                 <a href="{{'/'.$board->id}}" class="list-group-item">{{$board->title}}</a>
             </div>
+        </div>
+        <div class="col-md-2">
+            <form class="form-horizontal" action="{{ url('/delete/'.$board->id) }}" method="POST">
+                {{csrf_field()}}
+                <div class="form-group">
+                        @if( $board->author_name == @Auth::user()->id )
+                            <div class="form-group">
+                                <a href="{{'/edit/'.$board->id}}" class="btn btn-warning">Edit</a>
+                                <button type="submit" class="btn btn-danger">Delete Ad</button>
+                            </div>
+                        @endif
+                </div>
+            </form>
         </div>
         @endforeach
 

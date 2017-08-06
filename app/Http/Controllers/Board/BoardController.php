@@ -84,9 +84,12 @@ class BoardController extends Controller
      * @param  \App\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function edit(Board $board)
+    public function edit(Board $board, $id)
     {
+        $board = Board::find($id);
+        $authorName = $board->author->name;
 
+        return view('board.edit', compact('board','authorName'));
     }
 
     /**
@@ -96,9 +99,19 @@ class BoardController extends Controller
      * @param  \App\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Board $board)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+
+        $board = Board::find($id);
+        $board->title = $request->title;
+        $board->description = $request->description;
+        $board->save();
+        session()->flash('message','Your Ad: - '.$board->title.', was updated');
+        return redirect('/');
     }
 
     /**
